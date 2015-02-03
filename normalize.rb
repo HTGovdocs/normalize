@@ -10,6 +10,8 @@ def normalize_corporate( corp )
   ag.gsub!(/DEPARTMENT/, 'DEPT');
   ag.gsub!(/DEPTOF/, 'DEPT OF'); # Strangely common typo(?)
 
+  ag.gsub!(/&(AMP)?/, ' AND ');
+
   ag.gsub!(/UNITED STATES( OF AMERICA)?/, 'UNITED STATES');
   ag.gsub!(/\bUS\b/, 'UNITED STATES'); #dangerous?
   ag.gsub!(/U\sS\s|U S$/, 'UNITED STATES ');
@@ -29,7 +31,7 @@ def normalize_corporate( corp )
   ag.sub!(/\b(\d+[A-Z]{2}) CONGRESS\b/, 'CONGRESS \1'); #congress then session info
 
   #authorities drop the inc, so we probably should too
-  ag.sub!(/\b(inc)$/, ''); 
+  ag.sub!(/\b(INC)$/, ''); 
 
 
   ag.gsub!(/ +/, ' '); # whitespace
