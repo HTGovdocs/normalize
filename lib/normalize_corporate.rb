@@ -42,15 +42,17 @@ def normalize_corporate( corp )
   #authorities drop the inc, so we probably should too
   ag.sub!(/\b(INC)$/, ''); 
 
-  if ag !~ /COMMITTEE/  #overreach?
+  if ag !~ /COMMITTEE/ and ag !~ /OFFICE/ and ag !~ /CONFEDERATE/ and ag !~ /STUDY/ #overreach?
     ag.sub!(/HOUSE /, 'HOUSE COMMITTEE ON ');
     ag.sub!(/SENATE /, 'SENATE COMMITTEE ON ');
+  else
+    ag.sub!(/UNITED STATES (CONGRESS )?(HOUSE |SENATE )(.*) COMMITTEE$/, 'UNITED STATES \1\2COMMITTEE ON \3');
   end
-    
+
   #one off fixes
-  ag.sub!(/^UNITED STATES EDUCATION OFFICE$/, 'UNITED STATES OFFICE OF EDUCATION')
-  ag.sub!(/^UNITED STATES ENGINEERS CORPS$/, 'UNITED STATES ARMY CORPS OF ENGINEERS')
-  
+  ag.sub!(/^UNITED STATES EDUCATION OFFICE$/, 'UNITED STATES OFFICE OF EDUCATION');
+  ag.sub!(/^UNITED STATES ENGINEERS CORPS$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
+  ag.sub!(/UNITED STATES ENGINEERS CORPS .ARMY.$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
 
   ag.gsub!(/ +/, ' '); # whitespace
   ag.sub!(/^ +/,  '');
