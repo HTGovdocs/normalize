@@ -42,19 +42,31 @@ def normalize_corporate( corp )
   #authorities drop the inc, so we probably should too
   ag.sub!(/\b(INC)$/, ''); 
 
-  if ag !~ /COMMITTEE/ and ag !~ /OFFICE/ and ag !~ /CONFEDERATE/ and ag !~ /STUDY/ #overreach?
+  if ag !~ /COMMITTEE/ and ag !~ /OFFICE/ and ag !~ /CAUCUS/  \
+     and ag !~ /CONFEDERATE/ and ag !~ /STUDY/ #overreach?
     ag.sub!(/HOUSE /, 'HOUSE COMMITTEE ON ');
     ag.sub!(/SENATE /, 'SENATE COMMITTEE ON ');
   else
     ag.sub!(/UNITED STATES (CONGRESS )?(HOUSE |SENATE )(.*) COMMITTEE$/, 'UNITED STATES \1\2COMMITTEE ON \3');
   end
 
+  #oops
+  ag.sub!(/UNITED STATES UNITED STATES/, 'UNITED STATES');
+
   #one off fixes
   ag.sub!(/^UNITED STATES EDUCATION OFFICE$/, 'UNITED STATES OFFICE OF EDUCATION');
   ag.sub!(/^UNITED STATES ENGINEERS CORPS$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
-  ag.sub!(/UNITED STATES ENGINEERS CORPS .ARMY.$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
-  ag.sub!(/UNITED STATES STATE DEPT/, 'UNITED STATES DEPT OF STATE');
+  ag.sub!(/UNITED STATES ENGINEERS CORPS ARMY$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
+  ag.sub!(/ATOMIC ENERGY JOINT COMMITTEE/, 'JOINT COMMITTEE ON ATOMIC ENERGY');
+  ag.sub!(/ECONOMIC JOINT COMMITTEE/, 'JOINT ECONOMIC COMMITTEE');
+  ag.sub!(/^UNITED STATES LIBRARY OF CONGRESS$/, 'LIBRARY OF CONGRESS'); #librarians think they're special
 
+  ag.sub!(/UNITED STATES STATE DEPT\b/, 'UNITED STATES DEPT OF STATE');
+  ag.sub!(/UNITED STATES JUSTICE DEPT\b/, 'UNITED STATES DEPT OF JUSTICE');
+  ag.sub!(/UNITED STATES INTERIOR DEPT\b/, 'UNITED STATES DEPT OF INTERIOR');
+  ag.sub!(/UNITED STATES COMMERCE DEPT\b/, 'UNITED STATES DEPT OF COMMERCE');
+  ag.sub!(/UNITED STATES CIVIL(IAN)? DEFENSE OFFICE\b/, 'UNITED STATES OFFICE OF CIVIL\1 DEFENSE'); 
+  
   ag.gsub!(/ +/, ' '); # whitespace
   ag.sub!(/^ +/,  '');
   ag.sub!(/ +$/,  '');
