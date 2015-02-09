@@ -3,7 +3,9 @@ def normalize_corporate( corp, subfield=true )
   ag = corp.upcase; 
   ag.gsub!(/[,\.:;]|\'S?/, '');   # punctuations
   ag.gsub!(/[\(\)\{\}\[\]]/, ''); # Brackets
-  ag.gsub!(/FOR SALE BY/, '');  # I AM NOT INTERESTED IN WHAT YOU ARE SELLING. #some are GPO
+  
+  # Don't do this if interested in identifying GovDocs. Many of these are FSB GPO.
+  ag.gsub!(/FOR SALE BY.*/, '');  # I AM NOT INTERESTED IN WHAT YOU ARE SELLING. 
   ag.gsub!(/\b(THE) /, '');       # Stop words
 
   # Abbreviations et cetera.
@@ -60,6 +62,9 @@ def normalize_corporate( corp, subfield=true )
 
   if subfield #only try this stuff for the subfields
     ag.sub!(/^(.*) (DEPT|OFFICE|BUREAU)$/, '\2 OF \1'); #those three at the start. VIAFs aren't standard on this point, but we are
+  
+    #VIAF ID for just CONFERENCE COMMITTEES, date disambiguation should be dealt with elsewhere
+    ag.sub!(/CONFERENCE COMMITTEES \d\d\d\d(-\d\d\d\d)/, 'CONFERENCE COMMITTEES'); 
   end
   
   #oops
