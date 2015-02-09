@@ -1,5 +1,5 @@
 
-def normalize_corporate( corp, subfield=True )
+def normalize_corporate( corp, subfield=true )
   ag = corp.upcase; 
   ag.gsub!(/[,\.:;]|\'S?/, '');   # punctuations
   ag.gsub!(/[\(\)\{\}\[\]]/, ''); # Brackets
