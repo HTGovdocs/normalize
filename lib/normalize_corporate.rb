@@ -64,7 +64,7 @@ def normalize_corporate( corp, subfield=true )
     ag.sub!(/^(.*) (DEPT|OFFICE|BUREAU)$/, '\2 OF \1'); #those three at the start. VIAFs aren't standard on this point, but we are
   
     #VIAF ID for just CONFERENCE COMMITTEES, date disambiguation should be dealt with elsewhere
-    ag.sub!(/CONFERENCE COMMITTEES \d\d\d\d(-\d\d\d\d)/, 'CONFERENCE COMMITTEES'); 
+    ag.sub!(/CONFERENCE COMMITTEES \d\d\d\d(-\d\d\d\d)?/, 'CONFERENCE COMMITTEES'); 
   end
   
   #oops
