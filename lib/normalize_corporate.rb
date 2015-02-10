@@ -9,8 +9,8 @@ def normalize_corporate( corp, subfield=true )
   ag.gsub!(/\b(THE) /, '');       # Stop words
 
   # Abbreviations et cetera.
-  ag.gsub!(/DEPARTMENT/, 'DEPT');
-  ag.gsub!(/DEPTOF/, 'DEPT OF'); # Strangely common typo(?)
+  ag.gsub!(/\bDEPT\b/, 'DEPARTMENT');
+  ag.gsub!(/\bDEPTOF/, 'DEPARTMENT OF'); # Strangely common typo(?)
 
   ag.gsub!(/&(AMP)?(#X26)?/, ' AND ');
   
@@ -61,10 +61,13 @@ def normalize_corporate( corp, subfield=true )
   end
 
   if subfield #only try this stuff for the subfields
-    ag.sub!(/^(.*) (DEPT|OFFICE|BUREAU)$/, '\2 OF \1'); #those three at the start. VIAFs aren't standard on this point, but we are
+    ag.sub!(/^(.*) (DEPARTMENT|OFFICE|BUREAU)$/, '\2 OF \1'); #those three at the start. VIAFs aren't standard on this point, but we are
   
     #VIAF ID for just CONFERENCE COMMITTEES, date disambiguation should be dealt with elsewhere
     ag.sub!(/CONFERENCE COMMITTEES \d\d\d\d(-\d\d\d\d)?/, 'CONFERENCE COMMITTEES'); 
+
+    #just a dumb typo
+    ag.sub!(/BUREAU OF LABOR STANDARD\b/, 'BUREAU OF LABOR STANDARDS');
   end
   
   #oops
