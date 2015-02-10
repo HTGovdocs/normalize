@@ -46,8 +46,10 @@ def normalize_corporate( corp, subfield=true )
   ag.sub!(/\b(INC)$/, ''); 
 
   unless subfield #only try this stuff if we are working on a full 110
-    if ag !~ /COMMITTEE/ and ag !~ /OFFICE/ and ag !~ /CAUCUS/  \
-       and ag !~ /CONFEDERATE/ and ag !~ /STUDY/ #overreach?
+    #COMMITTEE is forgotten quite a bit. This might screw up other stuff, but it will do it equally
+    #overreach?
+    if ag !~ /COMMITTEE/ and (ag =~ /POST OFFICE/ or ag !~ /OFFICE/) \
+       and ag !~ /CAUCUS/ and ag !~ /CONFEDERATE/ and ag !~ /STUDY/ 
       ag.sub!(/HOUSE /, 'HOUSE COMMITTEE ON ');
       ag.sub!(/SENATE /, 'SENATE COMMITTEE ON ');
     else
@@ -58,6 +60,7 @@ def normalize_corporate( corp, subfield=true )
     ag.sub!(/^UNITED STATES ENGINEERS CORPS$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
     ag.sub!(/UNITED STATES ENGINEERS CORPS ARMY$/, 'UNITED STATES ARMY CORPS OF ENGINEERS');
     ag.sub!(/^LIBRARY OF CONGRESS$/, 'UNITED STATES LIBRARY OF CONGRESS'); #librarians think they're special
+    ag.sub!(/\b(COMMITTEE ON APPROPRIATIONS SUBCOMMITTEE .*) APPROPRIATIONS$/, '\1'); #redundancy in subcommittee names
   end
 
   if subfield #only try this stuff for the subfields
@@ -72,6 +75,8 @@ def normalize_corporate( corp, subfield=true )
   
   #oops
   ag.sub!(/UNITED STATES UNITED STATES/, 'UNITED STATES');
+  ag.sub!(/PERMAMENT/, 'PERMANENT'); 
+  
 
   #one off fixes
   ag.sub!(/ATOMIC ENERGY JOINT COMMITTEE/, 'JOINT COMMITTEE ON ATOMIC ENERGY');
