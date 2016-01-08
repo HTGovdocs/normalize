@@ -17,5 +17,5 @@ test/version_tmp
 temp
 results/*
 data/*
-.gitignore
+.rspec
 .env
