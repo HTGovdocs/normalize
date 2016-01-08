@@ -1,3 +1,6 @@
+#Don't use this. Use Bill Dueber's stnum library at 
+#https://github.com/billdueber/library_stdnums
+
 #implements http://www.loc.gov/marc/lccn-namespace.html
 
 def normalize_lccn lccn 
