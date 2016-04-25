@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "normalize"
-  spec.version       = "0.2"
+  spec.version       = "0.4"
   spec.authors       = ["Josh Steverman"]
   spec.email         = ["jstever@umich.edu"]
   spec.description   = "Simple normalization function."
