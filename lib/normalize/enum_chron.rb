@@ -5,7 +5,9 @@ module Normalize
     e.gsub!(/ +/, " ");
 
     # Deal with copies
-    e.gsub!(/\b(C|COPY?)[ .]*\d+/, "");
+    #e.gsub!(/\b(C|COPY?)[ .]*\d+/, "");
+    #Some SuDocs start with 'C \d\d'
+    e.gsub!(/\bCOPY[ .]*\d+/, "");
     e.gsub!(/(\d+(ST|ND|RD|TH)|ANOTHER) COPY/, "");
 
     e.gsub!(/VOL(UME)?/, "V");
